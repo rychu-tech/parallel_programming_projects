@@ -6,11 +6,11 @@
 #include <omp.h>
 
 #define NUM_THREADS 1
-#define MATRIX_SIZE 300
-double EPSILON = 0.000001;
+#define MATRIX_SIZE 3
+double EPSILON = 0.01;
 
 
-int generateMagicSquare(int magicMatrix[MATRIX_SIZE][MATRIX_SIZE])
+void generateMagicSquare(int magicMatrix[MATRIX_SIZE][MATRIX_SIZE])
 {
 	int i, row, column;
 	for( i = 1; i <= MATRIX_SIZE*MATRIX_SIZE; i++)
@@ -20,7 +20,6 @@ int generateMagicSquare(int magicMatrix[MATRIX_SIZE][MATRIX_SIZE])
         magicMatrix[row][column] = i;
     }
 
-    return magicMatrix;
 }
 
 void printIntMatrix(int matrix[MATRIX_SIZE][MATRIX_SIZE]) 
@@ -81,7 +80,7 @@ void generateMultipliedMatrix(double multipliedMatrix[MATRIX_SIZE][MATRIX_SIZE])
 	
 }
 
-int multiplyMatrices(double matrix1[MATRIX_SIZE][MATRIX_SIZE], double matrix2[MATRIX_SIZE][MATRIX_SIZE], double retMatrix[MATRIX_SIZE][MATRIX_SIZE])
+void multiplyMatrices(double matrix1[MATRIX_SIZE][MATRIX_SIZE], double matrix2[MATRIX_SIZE][MATRIX_SIZE], double retMatrix[MATRIX_SIZE][MATRIX_SIZE])
 {
 	int row, column, iterator;
     omp_set_num_threads(NUM_THREADS);
@@ -112,7 +111,6 @@ int multiplyMatrices(double matrix1[MATRIX_SIZE][MATRIX_SIZE], double matrix2[MA
 	    }
 	}
 	    
-    return retMatrix;
 }
 
 int main() 
@@ -120,8 +118,11 @@ int main()
 	int magicMatrix[MATRIX_SIZE][MATRIX_SIZE];
 	generateMagicSquare(magicMatrix);
 	
+	printIntMatrix(magicMatrix);
+	
 	double multipliedMatrix[MATRIX_SIZE][MATRIX_SIZE];
 	generateMultipliedMatrix(multipliedMatrix);
+	
 	
 	int numOfElements = MATRIX_SIZE * MATRIX_SIZE;
 	
@@ -167,7 +168,7 @@ int main()
 		}
 		//printf("%d\n", counter);
 		iter++;
-		
+		printdoubleMatrix(multipliedMatrix);
 	}
 	
 	total_t = (double)(fabs(end_t - start_t)) / CLOCKS_PER_SEC;
